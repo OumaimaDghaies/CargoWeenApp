@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import logging
 from datetime import datetime
 import git
-from git import InvalidGitRepositoryError, NoSuchPathError, Repo
+from git import Repo
 
 # Configuration du logging
 logging.basicConfig(
@@ -21,33 +21,23 @@ logger = logging.getLogger(__name__)
 def save_model(model):
     """Sauvegarde le modèle avec métadonnées"""
     try:
-        # Récupérer le commit Git si disponible
-        git_commit = "unknown"
-        try:
-            repo = Repo(search_parent_directories=True)
-            git_commit = repo.head.object.hexsha
-        except (InvalidGitRepositoryError, NoSuchPathError):
-            logger.warning("Aucun dépôt Git valide trouvé - utilisation de 'unknown' pour le commit")
-
         # Créer un conteneur pour le modèle et les métadonnées
         model_package = {
             "model_object": model,
             "metadata": {
                 "training_time": datetime.now().isoformat(),
-                "git_commit": git_commit,
+                "git_commit": Repo(search_parent_directories=True).head.object.hexsha,
                 "version": os.getenv("MODEL_VERSION", "1.0.0")
             }
         }
         
         # Sauvegarder
-        model_path = os.path.join(os.path.dirname(__file__), "best_model.pkl")
-        joblib.dump(model_package, model_path)
-        logger.info(f"Modèle principal sauvegardé dans {model_path}")
+        joblib.dump(model_package, "best_model.pkl")
+        logger.info("Modèle principal sauvegardé dans best_model.pkl")
         
         # Backup avec timestamp
-        backups_dir = os.path.join(os.path.dirname(__file__), "model_backups")
-        os.makedirs(backups_dir, exist_ok=True)
-        backup_path = os.path.join(backups_dir, f"best_model_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl")
+        os.makedirs("model_backups", exist_ok=True)
+        backup_path = f"model_backups/best_model_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
         joblib.dump(model_package, backup_path)
         logger.info(f"Backup du modèle créé: {backup_path}")
         
