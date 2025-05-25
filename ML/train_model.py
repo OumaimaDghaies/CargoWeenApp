@@ -32,12 +32,12 @@ def save_model(model):
         }
         
         # Sauvegarder
-        joblib.dump(model_package, "best_model.pkl")
+        joblib.dump(model_package, "ML/best_model.pkl")
         logger.info("Modèle principal sauvegardé dans best_model.pkl")
         
         # Backup avec timestamp
-        os.makedirs("model_backups", exist_ok=True)
-        backup_path = f"model_backups/best_model_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
+        os.makedirs("ML/model_backups", exist_ok=True)
+        backup_path = f"ML/model_backups/best_model_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pkl"
         joblib.dump(model_package, backup_path)
         logger.info(f"Backup du modèle créé: {backup_path}")
         
@@ -77,8 +77,8 @@ def train_and_save_model():
         save_model(model)
         
         # Vérification
-        if os.path.exists("best_model.pkl"):
-            model_size = os.path.getsize("best_model.pkl") / (1024 * 1024)  # Taille en MB
+        if os.path.exists("ML/best_model.pkl"):
+            model_size = os.path.getsize("ML/best_model.pkl") / (1024 * 1024)  # Taille en MB
             logger.info(f"Modèle sauvegardé (taille: {model_size:.2f} MB)")
             return True
             
