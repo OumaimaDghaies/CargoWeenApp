@@ -33,8 +33,8 @@ jobs:
 
     - name: Create MLflow directory
       run: mkdir -p mlruns
-    - name: Create app/db directory
-      run: mkdir -p app/db
+    - name: Create app directory
+      run: mkdir -p app
     - name: Start MLflow server (background)
       run: |
         mlflow server --backend-store-uri sqlite:///mlruns/mlflow.db --default-artifact-root ./mlruns --host 0.0.0.0 &
