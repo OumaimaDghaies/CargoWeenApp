@@ -6,7 +6,8 @@ import logging
 from datetime import datetime
 import git
 from git import Repo
-
+if not os.path.exists('CargoWeenApp/app'):
+    os.makedirs('CargoWeenApp/app')
 # Configuration du logging
 logging.basicConfig(
     level=logging.INFO,
