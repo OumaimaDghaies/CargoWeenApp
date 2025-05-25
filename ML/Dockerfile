@@ -1,20 +1,24 @@
-# Dockerfile.mlflow
+# Utilisez une image Python officielle
 FROM python:3.9-slim
 
-WORKDIR /app
+# Installez les dépendances système
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install mlflow psycopg2-binary pymongo[srv] boto3
+# Copiez les fichiers nécessaires
+COPY requirements.txt .
+COPY . .
 
-# Port pour MLflow UI
+# Installez les dépendances Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Exposez le port MLflow
 EXPOSE 5000
 
-# Configuration par défaut (peut être overridé)
-ENV MLFLOW_PORT=5000
-ENV MLFLOW_BACKEND_STORE_URI=sqlite:///mlruns/mlflow.db
-ENV MLFLOW_DEFAULT_ARTIFACT_ROOT=./mlruns
-
-CMD mlflow server \
-    --backend-store-uri ${MLFLOW_BACKEND_STORE_URI} \
-    --default-artifact-root ${MLFLOW_DEFAULT_ARTIFACT_ROOT} \
-    --host 0.0.0.0 \
-    --port ${MLFLOW_PORT}
+# Commande de démarrage
+CMD ["mlflow", "server", \
+     "--host", "0.0.0.0", \
+     "--port", "5000", \
+     "--backend-store-uri", "sqlite:///mlflow.db", \
+     "--default-artifact-root", "./artifacts"]
