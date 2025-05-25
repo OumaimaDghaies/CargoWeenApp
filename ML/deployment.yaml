@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: mlflow
-        image: gcr.io/cargoweenapp/mlflow-server:v1
+        image: gcr.io/cargoweenapp/mlflow-server:v2
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
