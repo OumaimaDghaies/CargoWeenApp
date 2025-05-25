@@ -14,7 +14,7 @@ jobs:
     env:
       MLFLOW_TRACKING_URI: http://127.0.0.1:5000
       DB_NAME: reservation
-      COLLECTION_NAME: ListTransitaire
+      COLLECTION_NAME: transitaires
       MODEL_VERSION: ${{ github.run_id }}
 
     steps:
