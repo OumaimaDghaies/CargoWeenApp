@@ -19,8 +19,8 @@ from pymongo.server_api import ServerApi
 import time
 import joblib
 import tkinter as tk
-if not os.path.exists('app'):
-    os.makedirs('app')
+if not os.path.exists('../app'):
+    os.makedirs('../app')
 # Configuration OpenRouteService
 ORS_API_KEY = "5b3ce3597851110001cf6248c5a8638eac034281a7d233d33622d354"
 ORS_API_URL = "https://api.openrouteservice.org/v2/directions/driving-car"
