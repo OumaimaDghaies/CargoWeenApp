@@ -77,8 +77,10 @@ def clean_data(df):
 
 def prepare_for_ml(df, target_col='prixKm'):
     if target_col in df.columns:
-        median_price = df[target_col].median()
-        y = np.where(df[target_col] > median_price, 'élevé', 'faible')
+        # Utiliser un quantile au lieu de la médiane pour avoir plus de données "élevé"
+        threshold = df[target_col].quantile(0.75)  # Top 25% comme "élevé"
+        y = np.where(df[target_col] > threshold, 'élevé', 'faible')
+        print(f"Distribution des classes après seuillage: {pd.Series(y).value_counts().to_dict()}")
     else:
         raise ValueError(f"Colonne cible '{target_col}' introuvable")
     
@@ -113,6 +115,9 @@ def prepare_for_ml(df, target_col='prixKm'):
     return X, y, scaler, {'numeric': numeric_imputer, 'categorical': categorical_imputer}, encoders, feature_names
 
 def train_and_evaluate_models(X, y, feature_names=None):
+    mlflow_dir = os.path.join(os.getcwd(), "ML/mlruns")
+    os.makedirs(mlflow_dir, exist_ok=True)
+    
     mlflow.set_tracking_uri("http://34.76.98.147")
     mlflow.set_experiment("Transport_Logistique_Optimization")
 
