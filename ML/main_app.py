@@ -530,7 +530,7 @@ def main():
     # 4. Configuration MongoDB
     MONGO_CONNECTION_STRING = "mongodb+srv://dghaiesoumaima0:2QM6D3ftO5H6TxH9@cluster0.g1zvwyt.mongodb.net/?retryWrites=true&w=majority"
     DB_NAME = "reservation"
-    COLLECTION_NAME = "transitaires"
+    COLLECTION_NAME = "transitairesTest"
 
     try:
         client = MongoClient(MONGO_CONNECTION_STRING)
