@@ -15,7 +15,7 @@ import mlflow.sklearn
 from mlflow.models.signature import infer_signature
 from mlflow.tracking import MlflowClient
 from pymongo.server_api import ServerApi
-
+import os
 def load_and_prepare_data(connection_string, db_name, collection_name):
     client = MongoClient(
         connection_string,
