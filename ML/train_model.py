@@ -54,7 +54,7 @@ def train_and_save_model():
         # Configuration avec validation
         MONGO_CONNECTION_STRING = "mongodb+srv://dghaiesoumaima0:2QM6D3ftO5H6TxH9@cluster0.g1zvwyt.mongodb.net/?retryWrites=true&w=majority"
         DB_NAME = os.getenv("DB_NAME", "reservation")
-        COLLECTION_NAME = os.getenv("COLLECTION_NAME", "transitaires")
+        COLLECTION_NAME = os.getenv("COLLECTION_NAME", "transitairesTest")
         
         if not MONGO_CONNECTION_STRING:
             raise ValueError("L'URI MongoDB n'est pas configurée dans les variables d'environnement")
